@@ -75,3 +75,44 @@ def get_leaderboard(car_key: str):
                 for i, r in enumerate(runs)
             ]
         }
+
+
+# Neuer Endpoint für Gesamtübersicht
+@router.get("/leaderboard/all/records", response_model=list)
+def get_all_records():
+    """Gibt für jedes Auto den besten Run zurück"""
+    with get_session() as session:
+        # Hole alle Autos
+        cars = session.exec(select(Car)).all()
+
+        records = []
+
+        for car in cars:
+            # Hole den besten Run für dieses Auto
+            best_run = session.exec(
+                select(Run)
+                .where(Run.car_id == car.id)
+                .order_by(Run.coins.desc(), Run.created_at)
+                .limit(1)
+            ).first()
+
+            if best_run:
+                records.append({
+                    "car_key": car.key,
+                    "car_name": car.name,
+                    "player": best_run.player_name,
+                    "coins": best_run.coins
+                })
+            else:
+                # Kein Run für dieses Auto
+                records.append({
+                    "car_key": car.key,
+                    "car_name": car.name,
+                    "player": "-",
+                    "coins": 0
+                })
+
+        # Sortiere nach Coins absteigend
+        records.sort(key=lambda x: -x["coins"])
+
+        return records

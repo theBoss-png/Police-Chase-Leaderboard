@@ -549,3 +549,83 @@ body {
         font-size: 0.75rem;
     }
 }
+
+/* All Records spezifische Styles */
+.all-records-header {
+    display: grid;
+    grid-template-columns: 80px 2fr 2fr 150px;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px 12px 0 0;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+}
+
+.all-records-row {
+    display: grid;
+    grid-template-columns: 80px 2fr 2fr 150px;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    background: white;
+    border-bottom: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+    animation: slideIn 0.4s ease forwards;
+    opacity: 0;
+}
+
+.all-records-row:hover {
+    background: #f8f9ff;
+    transform: translateX(8px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.all-records-row:last-child {
+    border-bottom: none;
+    border-radius: 0 0 12px 12px;
+}
+
+.car-col {
+    display: flex;
+    align-items: center;
+}
+
+.car-name {
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 1rem;
+}
+
+.no-record {
+    color: #a0aec0;
+    font-style: italic;
+    font-weight: 400;
+}
+
+/* Responsive Design für All Records */
+@media (max-width: 768px) {
+    .all-records-header,
+    .all-records-row {
+        grid-template-columns: 60px 1fr 1fr 100px;
+        gap: 0.5rem;
+        padding: 1rem;
+        font-size: 0.85rem;
+    }
+
+    .car-name {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .all-records-header,
+    .all-records-row {
+        grid-template-columns: 50px 1.5fr 1fr 90px;
+        gap: 0.3rem;
+        padding: 0.75rem 0.5rem;
+        font-size: 0.75rem;
+    }
+}
