@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Response
 from sqlmodel import select
 from .database import get_session
 from .models import Car, Run
@@ -7,6 +7,18 @@ from .auth import verify_password
 from .leaderboard import enforce_top_5
 
 router = APIRouter()
+
+# OPTIONS Handler für /runs (Preflight)
+@router.options("/runs")
+async def options_runs():
+    return Response(
+        status_code=200,
+        headers={
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+        }
+    )
 
 @router.post("/runs", response_model=RunResponse)
 def submit_run(data: RunCreate):
@@ -46,6 +58,18 @@ def submit_run(data: RunCreate):
             "car": car.key
         }
 
+
+# OPTIONS Handler für /leaderboard/{car_key} (Preflight)
+@router.options("/leaderboard/{car_key}")
+async def options_leaderboard(car_key: str):
+    return Response(
+        status_code=200,
+        headers={
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+        }
+    )
 
 @router.get("/leaderboard/{car_key}", response_model=LeaderboardResponse)
 def get_leaderboard(car_key: str):

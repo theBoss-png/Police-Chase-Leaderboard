@@ -7,34 +7,26 @@ from .routes import router
 # --- Lifespan für Startup / Shutdown ---
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    create_db_and_tables()  # DB beim Start erstellen
+    create_db_and_tables()
     yield
 
 # --- FastAPI App ---
 app = FastAPI(title="Speedrun Leaderboard API", lifespan=lifespan)
 
-# --- Root-Endpunkt (GET + HEAD) ---
-@app.api_route("/", methods=["GET", "HEAD"])
-def root():
-    return {"message": "Speedrun Leaderboard API läuft!"}
-
-# --- CORS Middleware ---
-origins = [
-    "https://theboss-png.github.io",  # GitHub Pages (ohne Pfad!)
-    "http://127.0.0.1:5500",          # Live Server
-    "http://localhost:5500",          # Live Server alternative
-    "http://127.0.0.1:5501",          # Falls anderer Port
-    "http://localhost:5501",
-    "*"  # TEMPORÄR: Erlaubt alle Origins (zum Testen)
-]
-
+# --- CORS Middleware (MUSS VOR den Routes kommen!) ---
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],  # Temporär alle Origins erlauben
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
+
+# --- Root-Endpunkt ---
+@app.api_route("/", methods=["GET", "HEAD"])
+def root():
+    return {"message": "Speedrun Leaderboard API sollte laufen!"}
 
 # --- API-Router einbinden ---
 app.include_router(router)
