@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run einreichen - Speed Champions</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">SPEED CHAMPIONS</h1>
+            <p class="subtitle">Deinen Run einreichen</p>
+        </header>
+
+        <nav class="nav-buttons">
+            <a href="index.html" class="nav-btn">Leaderboard</a>
+            <a href="submit.html" class="nav-btn active">Run einreichen</a>
+        </nav>
+
+        <div class="form-container">
+            <form id="runForm" class="run-form">
+                <div class="form-group">
+                    <label for="playerName" class="form-label">Spielername</label>
+                    <input type="text" id="playerName" class="form-input" required placeholder="Dein Name">
+                </div>
+
+                <div class="form-group">
+                    <label for="coins" class="form-label">Coins</label>
+                    <input type="number" id="coins" class="form-input" required min="0" placeholder="Anzahl Coins">
+                </div>
+
+                <div class="form-group">
+                    <label for="carSelect" class="form-label">Auto</label>
+                    <select id="carSelect" class="form-select" required>
+                        <option value="">Lädt...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Passwort</label>
+                    <input type="password" id="password" class="form-input" required placeholder="Passwort eingeben">
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span class="btn-text">Run einreichen</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+            </form>
+
+            <div id="result" class="result"></div>
+        </div>
+
+        <footer class="footer">
+            <p>Nur die Top 5 Runs pro Auto werden gespeichert</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

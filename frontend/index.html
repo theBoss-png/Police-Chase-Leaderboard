@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Champions - Leaderboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">SPEED CHAMPIONS</h1>
+            <p class="subtitle">Top 5 Runs pro Auto</p>
+        </header>
+
+        <nav class="nav-buttons">
+            <a href="index.html" class="nav-btn active">Leaderboard</a>
+            <a href="submit.html" class="nav-btn">Run einreichen</a>
+        </nav>
+
+        <div class="car-selector-wrapper">
+            <label for="carSelect" class="car-label">Auto wählen:</label>
+            <select id="carSelect" class="car-select">
+                <option value="">Lädt...</option>
+            </select>
+        </div>
+
+        <div class="leaderboard-container">
+            <div class="leaderboard-header">
+                <div class="header-cell rank-col">Rang</div>
+                <div class="header-cell player-col">Spieler</div>
+                <div class="header-cell coins-col">Coins</div>
+            </div>
+
+            <div id="leaderboardBody" class="leaderboard-body">
+                <div class="loading">Lade Leaderboard...</div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Nur die Top 5 Runs werden gespeichert</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
