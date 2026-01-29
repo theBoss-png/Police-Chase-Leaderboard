@@ -9,7 +9,6 @@ from .routes import router
 async def lifespan(app: FastAPI):
     create_db_and_tables()  # DB beim Start erstellen
     yield
-    # Hier könnte Shutdown-Logik rein (z.B. DB schließen)
 
 # --- FastAPI App ---
 app = FastAPI(title="Speedrun Leaderboard API", lifespan=lifespan)
@@ -21,15 +20,19 @@ def root():
 
 # --- CORS Middleware ---
 origins = [
-    "https://theboss-png.github.io/Police-Chase-Leaderboard",  # GitHub Pages
-    "http://127.0.0.1:5500",                                   # lokal testen
+    "https://theboss-png.github.io",  # GitHub Pages (ohne Pfad!)
+    "http://127.0.0.1:5500",          # Live Server
+    "http://localhost:5500",          # Live Server alternative
+    "http://127.0.0.1:5501",          # Falls anderer Port
+    "http://localhost:5501",
+    "*"  # TEMPORÄR: Erlaubt alle Origins (zum Testen)
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],  # GET, POST, OPTIONS, HEAD
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
