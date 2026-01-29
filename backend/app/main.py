@@ -26,7 +26,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
+@app.get("/", methods=["GET", "HEAD"])
 def root():
     return {"status": "ok"}
 
