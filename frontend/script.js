@@ -176,7 +176,7 @@ async function handleSubmit(e) {
 
             // Nach 2 Sekunden zum Leaderboard weiterleiten
             setTimeout(() => {
-                window.location.href = `index.html`;
+                window.location.href = `../index.html`;
             }, 2000);
         } else {
             showResult(
