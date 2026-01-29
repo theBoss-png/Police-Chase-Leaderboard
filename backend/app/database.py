@@ -1,9 +1,16 @@
-# database.py
+import os
 from sqlmodel import SQLModel, create_engine, Session
 
-DATABASE_URL = "sqlite:///./leaderboard.db"
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+if not DATABASE_URL:
+    raise RuntimeError("DATABASE_URL is not set")
+
+engine = create_engine(
+    DATABASE_URL,
+    echo=True,          # zum Debuggen (kannst du später ausmachen)
+    pool_pre_ping=True  # wichtig für Supabase
+)
 
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
