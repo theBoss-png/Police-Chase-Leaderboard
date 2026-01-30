@@ -8,6 +8,151 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Layout für Sidebar und Hauptinhalt */
+        .main-content-wrapper {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 968px) {
+            .main-content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-sidebar {
+                order: 2;
+            }
+
+            .main-content {
+                order: 1;
+            }
+        }
+
+        /* Statistik-Sidebar Styles */
+        .stats-sidebar {
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+        }
+
+        .stats-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stats-card-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .mini-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .mini-bar-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .mini-bar-label {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #fff;
+            min-width: 80px;
+        }
+
+        .mini-bar {
+            flex: 1;
+            height: 40px;
+            border-radius: 20px;
+            position: relative;
+            transition: all 0.5s ease;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            min-width: 50px;
+        }
+
+        .mini-bar.lelo {
+            background: linear-gradient(90deg, #2196F3, #1565C0);
+            box-shadow: 0 0 15px rgba(33, 150, 243, 0.4);
+        }
+
+        .mini-bar.hubaldium {
+            background: linear-gradient(90deg, #FF9800, #E65100);
+            box-shadow: 0 0 15px rgba(255, 152, 0, 0.4);
+        }
+
+        .mini-bar-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .stats-summary {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            border-top: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .stats-summary p {
+            margin: 0.5rem 0;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .stats-loading {
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+        }
+
+        .winner-text {
+            font-weight: bold;
+            color: #ffd700;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            padding: 0.5rem;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .stats-detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.3rem 0;
+        }
+
+        .stats-detail-label {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .stats-detail-value {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .main-content {
+            min-width: 0;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -22,16 +167,48 @@
             <a href="all-records.html" class="nav-btn active">Alle Rekorde</a>
         </nav>
 
-        <div class="leaderboard-container">
-            <div class="all-records-header">
-                <div class="header-cell rank-col">Rang</div>
-                <div class="header-cell car-col">Auto</div>
-                <div class="header-cell player-col">Rekordhalter</div>
-                <div class="header-cell coins-col">Coins</div>
-            </div>
+        <div class="main-content-wrapper">
+            <!-- Statistik-Sidebar -->
+            <aside class="stats-sidebar">
+                <div class="stats-card">
+                    <h3 class="stats-card-title">🏆 Rekord-Duell</h3>
 
-            <div id="allRecordsBody" class="leaderboard-body">
-                <div class="loading">Lade alle Rekorde...</div>
+                    <div class="mini-chart">
+                        <div class="mini-bar-wrapper">
+                            <div class="mini-bar-label">🏎️ Lelo</div>
+                            <div class="mini-bar lelo" id="leloBar">
+                                <span class="mini-bar-value" id="leloCount">0</span>
+                            </div>
+                        </div>
+
+                        <div class="mini-bar-wrapper">
+                            <div class="mini-bar-label">🏁 Hubaldium</div>
+                            <div class="mini-bar hubaldium" id="hubaldiumBar">
+                                <span class="mini-bar-value" id="hubaldiumCount">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-summary" id="statsSummary">
+                        <p class="stats-loading">Lade Statistiken...</p>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Hauptinhalt -->
+            <div class="main-content">
+                <div class="leaderboard-container">
+                    <div class="all-records-header">
+                        <div class="header-cell rank-col">Rang</div>
+                        <div class="header-cell car-col">Auto</div>
+                        <div class="header-cell player-col">Rekordhalter</div>
+                        <div class="header-cell coins-col">Coins</div>
+                    </div>
+
+                    <div id="allRecordsBody" class="leaderboard-body">
+                        <div class="loading">Lade alle Rekorde...</div>
+                    </div>
+                </div>
             </div>
         </div>
 
